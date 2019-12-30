@@ -20,8 +20,55 @@ var articleCounter
 function runQuery(numArticles, queryUrl) {
     $.ajax({ url: queryUrl, method: "GET" })
         .done(function (NYTData) {
+
+            $('#wellSection').empty();
+            for (var i = 0; i < numArticles; i++) {
+                console.log(NYTData.response.docs[i].headline.main);
+                console.log(NYTData.response.docs[i].section_name);
+                console.log(NYTData.response.docs[i].pub_date);
+                console.log(NYTData.response.docs[i].web_url);
+                console.log(NYTData.response.docs[i].byline.original);
+
+                // star dumping into html
+                var wellSection = $('<div>');
+                wellSection.addClass("well");
+                wellSection.attr('id', 'articleWell-' + i);
+                $('#wellSection').append(wellSection);
+
+                // check if things exist 
+                if(NYTData.response.docs[i].headline !="null"){
+                    console.log(NYTData.response.docs[i].headline.main );
+                    $("#articleWell-" + i).append("<h3>" + NYTData.response.docs[i].headline.main + "</h3>");
+                }
+                
+                // check for byline
+                if(NYTData.response.docs[i].headline.byline && NYTData.response.docs[i].byline.hasOwnProperty("original")){
+                    console.log(NYTData.response.docs[i].byline.original);
+                    $("#articleWell-" + i).append("<h5>" + NYTData.response.docs[i].byline.original + "</h5>");
+
+
+                }
+
+                // attrach content to the appropriate well
+                $("#articleWell-" + i).append("<h5>" + NYTData.response.docs[i].section_name + "</h5>");
+                $("#articleWell-" + i).append("<h5>" + NYTData.response.docs[i].pub_date + "</h5>");
+                $("#articleWell-" + i).append("<a href=" + NYTData.response.docs[i].web_url + ">" + NYTData.response.docs[i].web_url + "</a>");
+
+
+
+
+
+
+
+
+
+
+            }
+
+            // logging into console
             console.log(NYTData)
             console.log(queryUrl)
+            console.log(numArticles)
 
         })
 
@@ -32,14 +79,14 @@ function runQuery(numArticles, queryUrl) {
 // ======================================
 $('#searchBtn').on('click', function () {
 
+    // Get search term
     queryTerm = $('#search').val().trim();
-    console.log(queryTerm)
 
     // add in the search term 
     var newURl = queryUrlBase + "&q=" + queryTerm
-    console.log(newURl);
 
     // Get the number of records 
+    numResults = $("#numRecords").val();
 
     // Get the start year and end year
 
@@ -74,7 +121,7 @@ $('#searchBtn').on('click', function () {
 
 
     // send ajax call the newly assembled URL
-    runQuery(10, newURl);
+    runQuery(numResults, newURl);
 
     return false
 

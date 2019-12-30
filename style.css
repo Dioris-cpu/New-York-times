@@ -1,0 +1,20 @@
+body {
+    background-image: url(../New-York-times/Images/worm-s-eye-view-photography-of-buildings-1272541.jpg);
+}
+
+.jumbotron {
+    background-color: rgb(31, 19, 43);
+    color: burlywood;
+
+}
+
+.form-group {
+background-color: rgb(31, 19, 43);
+color: burlywood;
+}
+
+#searchBtn {
+background-color: rgb(31, 19, 43);
+color: burlywood;
+}
+
